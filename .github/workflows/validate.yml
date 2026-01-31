@@ -1,0 +1,40 @@
+name: Validate Migrations
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start Local Supabase
+        run: |
+          supabase start -x realtime,storage,imgproxy,edge-runtime,logflare,vector,supavisor
+
+      - name: Apply Migrations
+        run: |
+          supabase db reset
+
+      - name: Validation Summary
+        run: |
+          echo "## Migration Validation ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All migrations applied successfully to local database." >> $GITHUB_STEP_SUMMARY
+
+      - name: Stop Local Supabase
+        if: always()
+        run: |
+          supabase stop

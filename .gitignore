@@ -1,0 +1,22 @@
+# Supabase
+.supabase/
+supabase/.temp/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
