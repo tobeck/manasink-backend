@@ -4,6 +4,9 @@
 --              and improvements to existing tables
 -- =============================================================================
 
+-- Enable trigram extension for fuzzy search (must be first)
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- =============================================================================
 -- USER PROFILES
 -- Extended user information for future social features
@@ -84,9 +87,6 @@ CREATE INDEX IF NOT EXISTS idx_commanders_name_trgm ON public.commanders USING g
 CREATE INDEX IF NOT EXISTS idx_commanders_color_identity ON public.commanders USING gin(color_identity);
 CREATE INDEX IF NOT EXISTS idx_commanders_edhrec_rank ON public.commanders(edhrec_rank);
 CREATE INDEX IF NOT EXISTS idx_commanders_cmc ON public.commanders(cmc);
-
--- Enable trigram extension for fuzzy search (if not already enabled)
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 -- No RLS on commanders - public read access
 ALTER TABLE public.commanders ENABLE ROW LEVEL SECURITY;
